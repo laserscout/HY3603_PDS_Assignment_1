@@ -48,17 +48,19 @@ int main(int argc, char **argv) {
   qsort_seq(a, n);
   gettimeofday (&endwtime, NULL);
 
+  /* print sorted vector */
+  /* print(a, n); */
+  
   /* get time in seconds */
   seq_time = (double)((endwtime.tv_usec - startwtime.tv_usec)/1.0e6
                       + endwtime.tv_sec - startwtime.tv_sec);
 
   /* validate result */
   int pass = test(a, n);
+  printf("%d\n",pass);
   printf(" TEST %s\n",(pass) ? "PASSed" : "FAILed");
   assert( pass != 0 );
   
-    /* print sorted vector */
-  /* print(a, n); */
   
   /* print execution time */
   printf("Sequential wall clock time: %f sec\n", seq_time);
@@ -73,14 +75,14 @@ int main(int argc, char **argv) {
 /** procedure test() : verify sort results **/
 int test(int *a, int n) {
 
-  int pass = 0;
-  for (i = 1; i < n; i++) {
-    if (a[n-1]>a[n]) {
-      pass = 1;
+  int pass = 1;
+  for (int i = 1; i < n; i++) {
+    if (a[i-1]>a[i]) {
+      /* printf("Failure at item %d\n", i); */
+      pass = 0;
       break;
     }
   }
-  
   return pass;
   
 }
