@@ -73,9 +73,13 @@ int main(int argc, char **argv) {
 /** procedure test() : verify sort results **/
 int test(int *a, int n) {
 
-  // TODO: implement
   int pass = 0;
-
+  for (i = 1; i < n; i++) {
+    if (a[n-1]>a[n]) {
+      pass = 1;
+      break;
+    }
+  }
   
   return pass;
   
