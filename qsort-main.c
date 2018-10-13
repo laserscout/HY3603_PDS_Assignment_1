@@ -1,10 +1,11 @@
 /**********************************************************************
  *
- * qsort.c -- Sequential implementation of QuickSort
+ * qsort.c -- Multiple implementations of QuickSort
  *
  * Nikos Pitsianis <nikos.pitsianis@eng.auth.gr>
  * Dimitris Floros <fcdimitr@auth.gr>
- * Time-stamp: <2018-10-10>
+ * Frank Blanning <frankgou@ece.auth.gr>
+ * Time-stamp: <2018-10-XX>
  *
  **********************************************************************/
 
@@ -12,6 +13,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include "qsort-sequential.h"
+#include "qsorts-parallel.h"
 #include <assert.h>
 
 /* local function declarations */
@@ -23,8 +25,8 @@ void print(int *a, int n);
 int main(int argc, char **argv) {
 
   /* parse input */
-  if (argc != 2) {
-    printf("Usage: %s q\n  where n=2^q is problem size (power of two)\n", 
+  if (argc != 3) {
+    printf("Usage: %s q ID\n  where n=2^q is problem size (power of two)\n", 
 	   argv[0]);
     exit(1);
   }

@@ -1,14 +1,17 @@
 
-GCC = gcc
+CC = clang
 CFLAGS = -O3
 
-CMAIN=qsort
+TARGET = qsort
+OBJ = qsort-main.o qsort-sequential.o qsort-cilk.o
+# qsort-openmp.o
+# qsort-pthreads.o
 
-all: qsort-main.o qsort-sequential.o
-	$(GCC) $(CFLAGS) $^ -o $(CMAIN)
+all: $(OBJ)
+	$(CC) $(CFLAGS) $^ -o $(TARGET)
 
 %.o: %.c
-	$(GCC) -c $(CFLAGS) $^
+	$(CC) -c $(CFLAGS) $^
 
 clean:
-	rm -f *.o *~ $(CMAIN)
+	rm -f *.o *~ $(TARGET)
