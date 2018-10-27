@@ -11,6 +11,7 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <cilk/cilk.h>
 
 // The swap function will probably remain the same for this

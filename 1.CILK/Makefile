@@ -1,7 +1,8 @@
-export DYLD_LIBRARY_PATH=./cilk/lib/
-export LIBRARY_PATH=./cilk/lib/
-export C_INCLUDE_PATH=./cilk/lib/:/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
-CC = ./cilk/bin/clang
+#export DYLD_LIBRARY_PATH=./cilk/lib/
+#export LIBRARY_PATH=./cilk/lib/
+#export C_INCLUDE_PATH=./cilk/lib/:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
+#CC = ./cilk/bin/clang
+CC = gcc-mp-7
 CFLAGS = -fcilkplus -O3
 
 TARGET = qsort-cilk

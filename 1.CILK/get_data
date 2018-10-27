@@ -1,0 +1,17 @@
+#!/bin/sh
+file="$1"
+
+touch $file
+
+for q in {16..24}
+do
+    for t in {1..8}
+    do
+	echo "$q, $t \c" >> $file
+	for r in {1..5}
+	do
+	    echo "\b," $(./qsort-cilk $q $t) "\c" >> $file
+	done
+	echo "\b;" >> $file
+    done
+done

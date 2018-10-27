@@ -1,20 +1,19 @@
 /**********************************************************************
  *
- * qsort.c -- Parallel (CILK) implementations of QuickSort
+ * qsort.c -- Parallel (openMP) implementations of QuickSort
  *
  * Nikos Pitsianis <nikos.pitsianis@eng.auth.gr>
  * Dimitris Floros <fcdimitr@auth.gr>
  * Frank Blanning <frankgou@ece.auth.gr>
- * Time-stamp: <2018-10-XX>
+ * Time-stamp: <2018-10-26>
  *
  **********************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/time.h>
-#include "qsort-cilk.h"
+#include "qsort-omp.h"
 #include <assert.h>
-#include <cilk/cilk_api.h>
 
 #define SEED 6698
 
@@ -33,12 +32,14 @@ int main(int argc, char **argv) {
     exit(1);
   }
 
+  int t = atoi(argv[2]);
+
   /* variables to hold execution time */
   struct timeval startwtime, endwtime;
   double seq_time;
  
   /* initiate vector of random integerts */
-  int n = 1<<atoi(argv[1]);
+  int n  = 1<<atoi(argv[1]);
   int *a = (int *) malloc(n * sizeof(int));
 
   /* initialize vector */
@@ -46,16 +47,10 @@ int main(int argc, char **argv) {
 
   /* print vector */
   /* print(a, n); */
-
-  int err = __cilkrts_set_param("nworkers", argv[2]);
-  if (err != 0) {
-    printf("Failed to set worker count\nError code:%d\n",err);
-    exit (1);
- }
   
   /* sort elements in original order */
   gettimeofday (&startwtime, NULL);
-  qsort_cilk(a, n);
+  qsort_omp(a, n, t);
   gettimeofday (&endwtime, NULL);
 
   /* print sorted vector */
@@ -67,14 +62,14 @@ int main(int argc, char **argv) {
 
   /* validate result */
   int pass = test(a, n);
+  /* printf("%d\n",pass); */
   /* printf(" TEST %s\n",(pass) ? "PASSed" : "FAILed"); */
   assert( pass != 0 );
   
   
   /* print execution time */
-  /* printf("Parallel (CILK) wall clock time: %f sec\n", seq_time); */
-  printf ("%f",seq_time);
-  
+  printf("%f", seq_time);
+
   /* exit */
   return 0;
   
