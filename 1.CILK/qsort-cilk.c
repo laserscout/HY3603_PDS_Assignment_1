@@ -5,47 +5,41 @@
  * Nikos Pitsianis <nikos.pitsianis@eng.auth.gr>
  * Dimitris Floros <fcdimitr@auth.gr>
  * Frank Blanning <frankgou@ece.auth.gr>
- * Time-stamp: <2018-10-11>
+ * AEM: 6698
+ * Time-stamp: <2018-10-28>
  *
  **********************************************************************/
 
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "qsort-sequential.h"
+#include <cilk/cilk_api.h>
 #include <cilk/cilk.h>
 
-// The swap function will probably remain the same for this
-// implementation
+void qsort_cilk (int *v, int n);
 
-/* swap -- swap elements k and l of vector v */
-void swap_cilk(int *v, int k, int l) {
-  int temp = v[k];
-  v[k] = v[l];
-  v[l] = temp;
+/* qsortp -- Entry point for parallel  QuickSort */
+void qsortp(int *v, int n, int p) {
+
+  char t[4];
+  sprintf(t,"%d",(1<<p));
+  int err = __cilkrts_set_param("nworkers", t);
+  if (err != 0) {
+    printf("Failed to set worker count\nError code:%d\n",err);
+    exit (1);
+  }
+  qsort_cilk(v,n);
 }
 
-
-/* partition -- in-place update of elements */
-int partition_cilk(int *v, int n) {
-  int pivot = v[n-1];
-  int i = 0;
+/* Recurring qsort call */
+void qsort_cilk (int *v, int n) {
   
- for (int j = 0; j < n - 1; j++) 
-    if (v[j] < pivot) 
-      swap_cilk(v,i++,j);
-
-  swap_cilk(v, i, n - 1);
-  return (i);
-}
-
-/* qsortseq -- Entry point for QuickSort */
-void qsort_cilk(int *v, int n) {
-
   if (n > 1) {
-    int p = partition_cilk(v, n);
+    int p = partition(v, n);
     cilk_spawn qsort_cilk(v,p);
     qsort_cilk(&v[p+1],n-p-1);
 
-    cilk_sync;
+nc;
   }
 }

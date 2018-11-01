@@ -1,6 +1,6 @@
 ##==================================================================##
  #
- # Makefile for the OpenMP implementation of QuickSort
+ # Makefile for the pthread implementation of QuickSort
  #
  # Frank Blanning <frankgou@ece.auth.gr>
  # AEM: 6698
@@ -18,10 +18,10 @@ ifeq ($(UNAME_S),Darwin)
 	CC = gcc-mp-7
 endif
 
-CFLAGS = -fopenmp -O3
+CFLAGS = -g -pthread -O3
 
-TARGET = qsort-omp
-OBJ = qsort-main.o qsort-omp.o qsort-sequential.o
+TARGET = qsort-pth
+OBJ = qsort-main.o qsort-pth.o qsort-sequential.o
 
 all: $(OBJ)
 	$(CC) $(CFLAGS) $^ -o $(TARGET)

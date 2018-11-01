@@ -1,19 +1,20 @@
 /**********************************************************************
  *
- * qsort.c -- Parallel (openMP) implementations of QuickSort
+ * qsort-main.c -- Test wrapper for parallel QuickSort implementations
  *
  * Nikos Pitsianis <nikos.pitsianis@eng.auth.gr>
  * Dimitris Floros <fcdimitr@auth.gr>
  * Frank Blanning <frankgou@ece.auth.gr>
- * Time-stamp: <2018-10-26>
+ * AEM: 6698
+ * Time-stamp: <2018-10-28>
  *
  **********************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/time.h>
-#include "qsort-omp.h"
 #include <assert.h>
+#include "qsort-omp.h"
 
 #define SEED 6698
 
@@ -27,12 +28,16 @@ int main(int argc, char **argv) {
 
   /* parse input */
   if (argc != 3) {
-    printf("Usage: %s q t\n where n=2^q is problem size (power of two)\n and t=[1-99] the number of threads", 
+    printf("Usage: %s q p\nwhere n=2^q is problem size\nand t=2^p the number of threads", 
 	   argv[0]);
     exit(1);
   }
 
-  int t = atoi(argv[2]);
+  int p = atoi(argv[2]);
+  if (p>8 || p<1) {
+    printf("The p parameter needs to be between 1 and 8\nt=2^p the number of threads");
+    exit(1);
+  }
 
   /* variables to hold execution time */
   struct timeval startwtime, endwtime;
@@ -50,7 +55,7 @@ int main(int argc, char **argv) {
   
   /* sort elements in original order */
   gettimeofday (&startwtime, NULL);
-  qsort_omp(a, n, t);
+  qsortp(a, n, p);
   gettimeofday (&endwtime, NULL);
 
   /* print sorted vector */
@@ -62,8 +67,6 @@ int main(int argc, char **argv) {
 
   /* validate result */
   int pass = test(a, n);
-  /* printf("%d\n",pass); */
-  /* printf(" TEST %s\n",(pass) ? "PASSed" : "FAILed"); */
   assert( pass != 0 );
   
   

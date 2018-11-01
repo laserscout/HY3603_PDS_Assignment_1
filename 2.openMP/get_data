@@ -1,4 +1,14 @@
 #!/bin/sh
+##==================================================================##
+ #
+ # Data acquisition script for the OpenMP implementation of QuickSort
+ #
+ # Frank Blanning <frankgou@ece.auth.gr>
+ # AEM: 6698
+ # Time-stamp: <2018-10-25>
+ #
+##==================================================================##
+
 file="$1"
 
 touch $file
@@ -12,6 +22,6 @@ do
 	do
 	    echo "\b," $(./qsort-omp $q $t) "\c" >> $file
 	done
-	echo "\b;" >> $file
+	echo "\b" >> $file
     done
 done

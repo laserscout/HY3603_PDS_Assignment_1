@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <assert.h>
-#include "qsort-cilk.h"
+#include "qsort-pth.h"
 
 #define SEED 6698
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
   gettimeofday (&endwtime, NULL);
 
   /* print sorted vector */
-  /* print(a, n); */
+  print(a+n-10, 10);
   
   /* get time in seconds */
   seq_time = (double)((endwtime.tv_usec - startwtime.tv_usec)/1.0e6

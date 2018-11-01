@@ -1,12 +1,27 @@
-#export DYLD_LIBRARY_PATH=./cilk/lib/
-#export LIBRARY_PATH=./cilk/lib/
-#export C_INCLUDE_PATH=./cilk/lib/:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
-#CC = ./cilk/bin/clang
-CC = gcc-mp-7
+##==================================================================##
+ #
+ # Makefile for the CILK implementation of QuickSort
+ #
+ # Frank Blanning <frankgou@ece.auth.gr>
+ # AEM: 6698
+ # Time-stamp: <2018-10-28>
+ #
+##==================================================================##
+
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+	CC = gcc
+endif
+
+ifeq ($(UNAME_S),Darwin)
+	CC = gcc-mp-7
+endif
+
 CFLAGS = -fcilkplus -O3
 
 TARGET = qsort-cilk
-OBJ = qsort-main.o qsort-cilk.o
+OBJ = qsort-main.o qsort-cilk.o qsort-sequential.o
 
 all: $(OBJ)
 	$(CC) $(CFLAGS) $^ -o $(TARGET)

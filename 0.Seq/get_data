@@ -1,7 +1,8 @@
 #!/bin/sh
 ##==================================================================##
  #
- # Data acquisition script for the CILK implementation of QuickSort
+ # Data acquisition script for the sequential implementation of
+ # QuickSort
  #
  # Frank Blanning <frankgou@ece.auth.gr>
  # AEM: 6698
@@ -15,13 +16,10 @@ touch $file
 
 for q in {16..24}
 do
-    for t in {1..8}
+    echo "$q \c" >> $file
+    for r in {1..5}
     do
-	echo "$q, $t \c" >> $file
-	for r in {1..5}
-	do
-	    echo "\b," $(./qsort-cilk $q $t) "\c" >> $file
-	done
-	echo "\b;" >> $file
+	echo "\b," $(./qsort $q ) "\c" >> $file
     done
+    echo "\b" >> $file
 done
